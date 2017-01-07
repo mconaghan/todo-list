@@ -8,10 +8,15 @@
     <artifactId>todo-list</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <spinrg.boot.version>1.4.3.RELEASE</spinrg.boot.version>
+    </properties>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.3.RELEASE</version>
+        <version>${spring.boot.version}</version>
     </parent>
 
     <dependencies>
@@ -31,11 +36,10 @@
         </dependency>
     </dependencies>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
     <build>
+
+        <defaultGoal>clean install</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -85,11 +89,30 @@
                                             <minimum>0.80</minimum>
                                         </limit>
                                     </limits>
-                                    <!--<excludes>
-                                        <exclude>com.choudhury.codecoverage.Bye</exclude>
-                                    </excludes>-->
+                                    <excludes>
+                                        <!-- only has 3 lines, and we'll know if we break it -->
+                                        <exclude>com.github.mconaghan.todolist.server.Application</exclude>
+                                    </excludes>
                                 </rule>
                             </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <failOnViolation>true</failOnViolation>
+                            <configLocation>config/checkstyle-rules.xml</configLocation>
                         </configuration>
                     </execution>
                 </executions>
